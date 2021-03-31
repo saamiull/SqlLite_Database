@@ -28,9 +28,17 @@ public class MainActivity extends AppCompatActivity {
             CustomerModel customerModel;
             @Override
             public void onClick(View view) {
-                customerModel = new CustomerModel(editName.getText().toString(),Integer.parseInt(editAge.getText().toString()),switchIsActive.isChecked(),1);
-                Toast.makeText(MainActivity.this,customerModel.toString(),Toast.LENGTH_LONG).show();
+                try {
+                    customerModel = new CustomerModel(editName.getText().toString(),Integer.parseInt(editAge.getText().toString()),switchIsActive.isChecked(),1);
+                    Toast.makeText(MainActivity.this,customerModel.toString(),Toast.LENGTH_SHORT).show();
+                }
+                catch (Exception e)
+                {
+                    Toast.makeText(MainActivity.this, "Error", Toast.LENGTH_SHORT).show();
+                }
                 //Toast.makeText(MainActivity.this, "Add Button Clicked", Toast.LENGTH_SHORT).show();
+                DBHelper dbHelper = new DBHelper(MainActivity.this);
+                boolean b = dbHelper.addCustomer(customerModel);
             }
         });
         buttonView.setOnClickListener(new View.OnClickListener() {
