@@ -2,10 +2,14 @@ package org.samiulhaq.sqllitedatabase;
 
 import android.content.ContentValues;
 import android.content.Context;
+import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 
 import androidx.annotation.Nullable;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class DBHelper extends SQLiteOpenHelper {
     public static final String CUSTOMER_NAME = "CustomerName";
@@ -29,7 +33,6 @@ public class DBHelper extends SQLiteOpenHelper {
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
 
     }
-
     public boolean addCustomer(CustomerModel customerModel){
         SQLiteDatabase db = this.getWritableDatabase();
         //Hash map, as we did in bundles
@@ -42,5 +45,28 @@ public class DBHelper extends SQLiteOpenHelper {
         long insert = db.insert(CUST_TABLE, null, cv);
         if (insert == -1) { return false; }
         else{return true;}
+    }
+    public void deleteCustomer(int id){
+        SQLiteDatabase DB=this.getReadableDatabase();
+        DB.delete(CUST_TABLE,CUSTOMER_ID + "=" + id,null);
+    }
+    public List<CustomerModel> getAllRecord(){
+        List<CustomerModel> myList= new ArrayList<>();
+        String query= "Select * FROM " + CUST_TABLE;
+        SQLiteDatabase db= this.getReadableDatabase();
+        Cursor cursor= db.rawQuery(query,null);
+        if(cursor.moveToFirst()){
+            do{
+                int id= cursor.getInt(0);
+                String custName= cursor.getString(1);
+                int custAge= cursor.getInt(2);
+                Boolean isActive= cursor.getInt(3) == 1? true: false;
+                CustomerModel myCustModel= new CustomerModel(custName,custAge,isActive,id);
+                myList.add(myCustModel);
+            }while (cursor.moveToNext());
+        }
+        cursor.close();
+        db.close();
+        return myList;
     }
 }

@@ -68,11 +68,12 @@
 
     <ListView
         android:id="@+id/listViewDetails"
-        android:layout_width="390dp"
-        android:layout_height="520dp"
-        android:layout_marginTop="8dp"
+        android:layout_width="364dp"
+        android:layout_height="353dp"
+        android:layout_marginTop="16dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/buttonAdd" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>
